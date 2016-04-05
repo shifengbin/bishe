@@ -1,7 +1,7 @@
 start:
 	gcc -c threadpool.c 
 	ar cvr libthreadpool.a threadpool.o
-	gcc main.c -L. -lthreadpool -lpthread  -o main
+	g++ main.cpp -L. -lthreadpool -lpthread  -o main
 
 clean:
 	rm *.o

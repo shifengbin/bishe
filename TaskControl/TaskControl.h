@@ -5,24 +5,24 @@
 #include "../Queue/Queue.h"
 #include "../URL/URL.h"
 
-typedef void callback(void *);
+typedef void (*mycallback)(void *);
 
 class TaskControl
 {
 public:
-	TaskControl( int  num , callback fun );
+	TaskControl( int  num , mycallback fun );
 	~TaskControl();
-	int addTask( URL *url );
-	int isAllDone();
-	int getCurrentRunNum();
+	int addTaskToQueue( URL *url );
+	int isAllTaskDone();
+	int getCurrentRun();
 	
 private:
 	ThreadPool *handle;
-	callback *fun;
+	mycallback fun;
 };
 
 
-TaskControl::TaskControl( int num ,callback fun )
+TaskControl::TaskControl( int num , mycallback fun )
 {
 	initThreadPool( &(this->handle) , num );
 	this->fun = fun;
@@ -35,18 +35,18 @@ TaskControl::~TaskControl()
 }
 
 
-int TaskControl::addTask( URL *url )
+int TaskControl::addTaskToQueue( URL *url )
 {
 	return addTask( this->handle, this->fun , url );
 }
 
 
-int TaskControl::isAllDone()
+int TaskControl::isAllTaskDone()
 {
 	return isTaskAllDone( this->handle );
 }
 
-int TaskControl::getCurrentRunNum()
+int TaskControl::getCurrentRun()
 {
 	return getCurrentRunNum( this->handle );
 }
