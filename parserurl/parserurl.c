@@ -5,8 +5,8 @@
 #include "parserurl.h"
 
 /*
-* these function is the end must free the result
-*/
+ * these function is the end must free the result
+ */
 //function http(s)://xxx.xxx.xxx/xxx ==> xxx.xxx.xxx/xxx
 char *removehttp(char *url)
 {
@@ -17,7 +17,7 @@ char *removehttp(char *url)
 	if (url == NULL)
 		return NULL;
 
-	
+
 	if ( (u = strstr(url , "//")) != NULL)
 	{
 		ru = (char*)malloc(strlen(u+1));
@@ -43,21 +43,23 @@ char *gethost( char *url)
 	char *rhttp ;
 	if( url == NULL)
 		return NULL;
-	
+
 	if ((hosts = strstr(url,"//")) == NULL)
 	{
 		return NULL;
 	}
 	hosts+=2;
-
-	if((hoste = strstr(hosts,"/")) == NULL)
+	if ((hoste = strstr( hosts,":")) == NULL)
 	{
-		rhttp = (char*)malloc(strlen(hosts)+1);
-		if ( rhttp == NULL)
-			return NULL;
-		memset(rhttp, 0 , strlen(hosts)+1);
-		memcpy(rhttp, hosts,strlen(hosts));
-		return rhttp;
+		if((hoste = strstr(hosts,"/")) == NULL)
+		{
+			rhttp = (char*)malloc(strlen(hosts)+1);
+			if ( rhttp == NULL)
+				return NULL;
+			memset(rhttp, 0 , strlen(hosts)+1);
+			memcpy(rhttp, hosts,strlen(hosts));
+			return rhttp;
+		}
 	}
 	int len = hoste - hosts;
 	rhttp = (char *)malloc(len + 1);
@@ -75,7 +77,7 @@ char *getport( char *url)
 	if (url == NULL)
 		return NULL;
 	rh = removehttp(url);
-	
+
 	if ((c = strchr(rh,':'))== NULL)
 	{
 		free(rh);
@@ -166,7 +168,7 @@ URL *parserURL( URL *u , char *url)
 	host = gethost(url);
 	port = getport(url);
 	res =  getres(url);
-	
+
 	if (host == NULL )
 	{
 		if ( u == NULL || u->host == NULL)
@@ -200,9 +202,9 @@ URL *parserURL( URL *u , char *url)
 /*
 int main()
 {
-	URL *ret;
+	URL *ret ,*ret2;
 	char *p =  "http://s1.qhimg.com:8080/index.html";
-
+	char *t = "/aaa/bbb";
 	ret = parserURL(NULL,p);
 	if (ret != NULL)
 	{
@@ -210,6 +212,16 @@ int main()
 		puts(ret->port);
 		puts(ret->res);
 	}
+
+	ret2 = parserURL( ret , t );
+
+	if (ret2 != NULL)
+	{
+		puts(ret2->host);
+		puts(ret2->port);
+		puts(ret2->res);
+	}
+
 	return 0;
 }
 */
