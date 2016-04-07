@@ -1,24 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "hash.h"
 #include "hashlist.h"
 
-/*
-*计算字符串的hash值
-*/
-unsigned int hash( const char *str , int len)
-{
-
-        unsigned int ret = 0;
-        unsigned int seed = 131;
-
-        int i;
-        for ( i = 0 ; i < len ; i++)
-        {
-                ret = ret * seed + str[i];
-        }
-        return ret;
-}
 /*
 *初始化hashlist
 */

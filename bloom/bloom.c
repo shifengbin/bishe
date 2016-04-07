@@ -12,7 +12,7 @@ static unsigned int hash( char *str , int seed)
 {
 	char *temp = str;
 	unsigned int ret = 0;
-	while(*temp != NULL && *temp !='\0')
+	while( temp != NULL && *temp !='\0')
 	{
 		ret = ret*seed + *temp;
 		temp++;
@@ -39,25 +39,26 @@ int search( char *str)
 		h = hash( str, seeds[i]);
 		if ( (bloom[h/sizeof(int)] & 1<<(h%sizeof(int))) == 0)
 			return 0;
-		
+
 	}
 	return 1;
 }
+
 /*
-int main()
-{
-	int flag;
-	char buf[1024] = { 0 };
-	for(;;)
-	{
-		memset( buf , 0 , sizeof( buf ));
-		scanf("%s",buf);
-		flag = search(buf);
-		if(!flag)
-		{
-			add(buf);
-		}
-		printf("%s:%s\n",buf,flag?"true":"false");
-	}
-	return 0;
-}*/
+   int main()
+   {
+   int flag;
+   char buf[1024] = { 0 };
+   for(;;)
+   {
+   memset( buf , 0 , sizeof( buf ));
+   scanf("%s",buf);
+   flag = search(buf);
+   if(!flag)
+   {
+   add(buf);
+   }
+   printf("%s:%s\n",buf,flag?"true":"false");
+   }
+   return 0;
+   }*/

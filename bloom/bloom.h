@@ -8,7 +8,7 @@ void add( char *str );
 
 int search( char *str);
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 }
 #endif
 

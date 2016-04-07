@@ -3,13 +3,13 @@
 #include "bloom.h"
 class Bloom
 {
-public:
-	void static addBloomFilter( char *str );
-	int  static isExist( char *str );
+	public:
+		void static addFilter( char *str );
+		int  static isExist( char *str );
 };
 
 
-void Bloom::addBloomFilter( char *str )
+void Bloom::addFilter( char *str )
 {
 	add(str);
 }

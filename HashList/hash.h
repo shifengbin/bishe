@@ -5,7 +5,7 @@
 extern "C"{
 #endif
 
-unsigned int hash( char *str , int len);
+unsigned int hash( const char *str , int len);
 
 
 #ifdef __cplusplus

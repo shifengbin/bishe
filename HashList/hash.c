@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-unsigned int hash( char *str , int len)
+unsigned int hash( const char *str , int len)
 {
 
 	unsigned int ret = 0;
