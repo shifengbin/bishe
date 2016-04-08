@@ -12,6 +12,7 @@ int select( void *data , int count, char **value, char **name)
 		printf("%s=%s ",name[i],value[i]);
 	}	
 	puts("");
+
 	return 0;
 }
 
@@ -32,6 +33,6 @@ int main()
 	p->exec("insert into URL(name) values('zhangsan')");
 	p->exec("insert into URL(name) values('zhangsan')");
 	p->exec("insert into URL(name) values('zhangsan')");
-	p->query("select * from URL",select,NULL);
+	p->query("select * from URL limit 2",select,NULL);
 	return 0;
 }

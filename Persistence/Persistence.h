@@ -3,6 +3,8 @@
 #include <pthread.h>
 #include "sqlite3.h"
 
+#define DBFILE "spider.db"
+
 typedef int (*callback)( void *, int , char ** , char **);
 
 class Persistence

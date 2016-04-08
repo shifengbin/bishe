@@ -5,3 +5,4 @@ start:
 	g++ Persistence.o test.o sqlite3.o ../log/mylog.o -lpthread -ldl
 clean:
 	rm *.o
+	rm spider.*

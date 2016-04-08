@@ -29,7 +29,7 @@ Persistence *Persistence::getPersistence()
 {
 	if ( pdb == NULL )
 	{
-		pdb = new Persistence("spider.db");
+		pdb = new Persistence(DBFILE);
 	}
 	return pdb;
 }

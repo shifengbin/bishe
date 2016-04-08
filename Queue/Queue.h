@@ -5,6 +5,9 @@
 #define NULL ((void*)0)
 #endif
 
+#define HEAD  1
+#define TAIL  0
+
 template <typename T>
 
 class Node
@@ -18,27 +21,30 @@ template <typename T>
 class Queue
 {
 public:
-    Queue();
+    Queue( int );
     ~Queue();
     int pushHead( T *node );
     int pushTail( T *node );
     int isEmpty();
     int getCount();
     T*  pop();
+    int push( T *node );
 private:
     Node<T> *head;
     Node<T> *tail;
+    int method;
     int length;
 };
 
 
 
 template <typename T>
-Queue<T>::Queue()
+Queue<T>::Queue( int method)
 {
     head = NULL;
     tail = NULL;
     length = 0;
+    this->method = method;
 }
 
 template <typename T>
@@ -117,6 +123,19 @@ T*  Queue<T>::pop()
     delete del;
     length--;
     return temp;
+}
+
+template <typename T>
+int Queue<T>::push( T *node )
+{
+	if ( method == TAIL )
+	{
+		return pushTail( node );
+	}
+	else
+	{
+		return pushHead( node );
+	}
 }
 
 #endif // QUEUE_H

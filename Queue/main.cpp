@@ -6,14 +6,10 @@ using namespace std;
 int main()
 {
 
-    Queue<int> q;
-    for( int i = 0; i<10 ; i++)
-    {
-        q.pushHead( new int(i));
-    }
+    Queue<int> q(HEAD);
     for( int i = 0; i < 10 ; i++)
     {
-        q.pushTail( new int(i));
+        q.push( new int(i));
     }
 
 
