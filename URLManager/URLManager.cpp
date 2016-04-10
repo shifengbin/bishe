@@ -10,7 +10,7 @@
 #define STATE  "state"
 
 
-URLManager *um = NULL;
+URLManager *URLManager::um = NULL;
 //Queue<URL> urlQue;
 
 int load( void *um , int count, char **vals ,char **colname)
@@ -45,6 +45,7 @@ int load( void *um , int count, char **vals ,char **colname)
 		{
 			temp->setState( atoi( vals[i] ) );
 		}
+//		puts(vals[i]);
 	}
 	que->push( temp );
 
@@ -77,7 +78,7 @@ int URLManager::getCurrentSize()
 	return urlQue->getCount();
 }
 
-int URLManager::loadURL(int method)
+int URLManager::loadURL()
 {
 	int length = urlQue->getCount();
 	int loadcount;
@@ -94,8 +95,8 @@ int URLManager::loadURL(int method)
 		{
 			return -1;
 		}
-		sprintf(sql,"select * from DB_URL where state=0 limit %d",loadcount);
-		db->query(sql,load,this->um);
+		sprintf(sql,"select * from url where state=0 limit %d",loadcount);
+		db->query(sql,load,this->urlQue);
 	}
 		//nothing
 	return 0;

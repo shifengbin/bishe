@@ -16,7 +16,7 @@ private:
 public:
 	static URLManager *getURLManager();
 	int getCurrentSize();
-	int loadURL(int method);
+	int loadURL();
 	URL *popURL();
 	~URLManager();
 };

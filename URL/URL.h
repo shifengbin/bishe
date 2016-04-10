@@ -16,7 +16,15 @@ private:
 	int deep;
 	int state;
 public:
-	URL(){}
+	URL()
+	{
+		id = 0;
+		urlStr = NULL;
+		type = 0;
+		deep = 0;
+		state = 0;
+	}
+
 	~URL()
 	{
 		if( urlStr != NULL )
