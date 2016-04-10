@@ -1,7 +1,8 @@
 start:
 	gcc mylog.c -c 
-	gcc main.c -c
-	gcc main.o mylog.o
+	gcc LogMain.c -c
+#	gcc main.o mylog.o
+	mv *.o ../Debug
 #	ar cvr libmylog.a mylog.o
 #	gcc main.c -L. -lmylog -o main
 

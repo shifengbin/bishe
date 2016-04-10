@@ -4,6 +4,9 @@ start:
 	cd Persistence;make
 	cd bloom;make
 	cd ConfigParser;make
+	cd TaskControl;make
+	cd parserurl;make
+	cd URLManager;make
 
 clean:
 	cd log;make clean

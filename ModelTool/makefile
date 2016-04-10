@@ -1,3 +1,5 @@
 start:
 	gcc -shared -fPIC add.c -oadd.so
-	g++ main.cpp -ldl
+	g++ -c ModelToolMain.cpp -ldl
+	mv *.o ../Debug
+	mv *.so ../Debug

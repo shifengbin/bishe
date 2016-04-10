@@ -1,11 +1,12 @@
 .SUFFIXES:.cpp .o
-SRC=main.cpp 
+SRC=QueueMain.cpp 
 OBJ=$(SRC:.cpp=.o)
-EXE=main
+#EXE=main
 CC=g++
 
 start:$(OBJ)
-	$(CC) $(OBJ) -o $(EXE)
+#	$(CC) $(OBJ) -o $(EXE)
+	mv *.o ../Debug
 .cpp.o:
 	$(CC) -c $< -o $@
 
