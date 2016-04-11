@@ -5,13 +5,13 @@
 extern "C"{
 #endif
 
-typedef struct URL{
+typedef struct PURL{
 	char *host;
 	char *port;
 	char *res;
 	int type;
 	int deep;
-}URL;
+}PURL;
 /*
 * these function is the end must free the result
 *	error return NULL;
@@ -30,7 +30,7 @@ char *getport( char *url);
 char *getres( char *url );
 
 //get URL 
-URL *parserURL( URL *u , char *url);
+PURL *parserURL( PURL *u , char *url);
 
 #ifdef __cplusplus
 }

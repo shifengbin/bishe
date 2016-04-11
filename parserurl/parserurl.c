@@ -156,9 +156,9 @@ char *getres( char *url )
 	return ret;
 }
 
-URL *parserURL( URL *u , char *url)
+PURL *parserURL( PURL *u , char *url)
 {
-	URL *ret;
+	PURL *ret;
 	char *host;
 	char *port;
 	char *res;
@@ -183,7 +183,7 @@ URL *parserURL( URL *u , char *url)
 		port = (char *)malloc(strlen(u->port)+1);
 		sprintf( port , "%s" , u->port);
 	}
-	ret = (URL*)malloc(sizeof(URL));
+	ret = (PURL*)malloc(sizeof(PURL));
 	if (ret == NULL )
 	{
 		if ( host == NULL)
@@ -199,10 +199,17 @@ URL *parserURL( URL *u , char *url)
 	ret->res  = res;
 	return ret;
 }
+
+int isAbsoluteURL( char *url )
+{
+	if( strstr(url,"//") != NULL )
+		return 1;
+	return 0;
+}
 /*
 int main()
 {
-	URL *ret ,*ret2;
+	PURL *ret ,*ret2;
 	char *p =  "http://s1.qhimg.com:8080/index.html";
 	char *t = "/aaa/bbb";
 	ret = parserURL(NULL,p);
@@ -221,7 +228,9 @@ int main()
 		puts(ret2->port);
 		puts(ret2->res);
 	}
-
+	
+	printf("%s:%s\n",p,isAbsoluteURL(p)==1?"abslute":"relative");
+	printf("%s:%s\n",t,isAbsoluteURL(t)==1?"abslute":"relative");
 	return 0;
 }
 */
