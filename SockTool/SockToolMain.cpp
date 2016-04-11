@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "../Hex2I/Hex2I.h"
 
 
 int main()
@@ -24,21 +25,21 @@ int main()
 	sprintf(buf,"GET / HTTP/1.1\r\nHost: bj.58.com\r\n\r\n");
 	SockTool::writeN(fd , buf , strlen( buf ) );
 	memset( buf , 0 , sizeof( buf ));
+
 	for(;;)
 	{
 		SockTool::readLine( fd , buf , 1024 );
-		puts(buf);
-		memset( buf , 0 , sizeof( buf ));
+//		puts(buf);
 		if ( !strncmp(buf,"\r\n",2) )
 		{
-			puts("-------header end--------");
+//			puts("-------header end--------");
 			break;
 		}
-		sleep(1);
+		memset( buf , 0 , sizeof( buf ));
 	}
 
-	sleep(2);
-
+//	sleep(2);
+//	puts("body");
 	for( ;; )
 	{
 		SockTool::readLine( fd, buf , 1024 );
@@ -46,14 +47,22 @@ int main()
 		{
 			*temp = '\0';
 		}
-		n = atoi(buf);
-		if ( n == 0 )
+//		puts(buf);		
+		n = hex2i(buf) + 2;
+
+//		printf("read: %d\n",n);
+
+		if ( n == 2 )
 		{
 			break;
 		}
 		SockTool::readN(fd , buf , sizeof( buf ),n );
-		puts(buf);
+		if ( (temp = strstr( buf , "\r")) != NULL )
+		{
+			*temp = '\0';
+		}
+		printf(buf);
 		memset( buf , 0 , sizeof( buf ));
-		sleep(1);
+//		sleep(1);
 	}
 }

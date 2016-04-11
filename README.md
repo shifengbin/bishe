@@ -1,3 +1,3 @@
 "#bishe" 
 TaskControl update
-\nyou need PCRE library\n
+you need PCRE library
