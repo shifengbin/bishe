@@ -1,5 +1,6 @@
 .SUFFIXES:.cpp .o
-SRC= URLManager.cpp URLManagerMain.cpp
+SRC= URLManager.cpp
+# URLManagerMain.cpp
 OBJ=$(SRC:.cpp=.o)
 CC=g++
 start:$(OBJ)

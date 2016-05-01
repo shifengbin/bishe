@@ -5,7 +5,7 @@
 #include "../Queue/Queue.h"
 
 #define URLMAXSIZE 100
-#define URLLESSIZE 20
+#define URLLESSIZE 2
 
 class URLManager
 {

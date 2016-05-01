@@ -7,7 +7,9 @@ start:
 	cd TaskControl;make
 	cd parserurl;make
 	cd URLManager;make
+	
 
+	g++ main.cpp ./Debug/*.o -lpthread -ldl
 clean:
 	cd log;make clean
 	cd ConfigParser;make clean

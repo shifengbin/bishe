@@ -1,5 +1,6 @@
 .SUFFIXES:.c .o
-SRC=hash.c hashlist.c HashlistMain.c
+SRC=hash.c hashlist.c 
+#HashlistMain.c
 OBJ=$(SRC:.c=.o)
 #EXE=hashlistMain
 CC=gcc

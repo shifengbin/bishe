@@ -22,6 +22,11 @@ int load( void *um , int count, char **vals ,char **colname)
 	{
 		return -1;
 	}
+	if (count <= 0)
+	{
+		delete temp;
+		return 0;
+	}
 
 	for( i = 0; i < count; i++)
 	{
@@ -47,8 +52,8 @@ int load( void *um , int count, char **vals ,char **colname)
 		}
 //		puts(vals[i]);
 	}
+	printf("ADD %d %s\n",count,temp->getURLStr());
 	que->push( temp );
-
 	return 0;	
 }
 

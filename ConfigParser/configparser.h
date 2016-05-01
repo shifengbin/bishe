@@ -2,6 +2,7 @@
 #define CONFIGPARSER_H
 #include "modepair.h"
 #define MODESIZE 20
+
 class ConfigParser
 {
 public:

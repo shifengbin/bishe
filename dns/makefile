@@ -1,5 +1,6 @@
 .SUFFIXES:.c .o
-SRC=dns.c DNSMain.c
+SRC=dns.c 
+#DNSMain.c
 OBJ=$(SRC:.c=.o)
 EXE=main
 start:$(OBJ)

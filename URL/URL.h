@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../Persistence/Persistence.h"
+
 
 
 
@@ -87,6 +89,15 @@ public:
 	void setState( int state)
 	{
 		this->state = state;
+	}
+	
+	int setStateToDB( int state )
+	{
+		char buf[1024] = { 0 };
+		Persistence *db = Persistence::getPersistence();
+		sprintf(buf,"update url set state=%d where id=%d",state,this->id);
+		db->exec(buf);
+	
 	}
 };
 
