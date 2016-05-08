@@ -1,16 +1,25 @@
 #include <stdio.h>
+#include <arpa/inet.h>
 
 #include "./ConfigParser/configparser.h"
 #include "./URLManager/URLManager.h"
 #include "./URL/URL.h"
 #include "./TaskControl/TaskControl.h"
 #include "./log/mylog.h"
+#include "./dns/DNSCache.h"
+//#include "./Download/Download.h"
 
-void test( void*args)
+void test( void * a)
 {
-	URL *mURL = (URL*) args;
-	printf("%s\n",mURL->getURLStr());
-	mURL->setStateToDB( 100 );
+	DNSCache *dnsc = DNSCache::getDNSCache();	
+	char buf[16] = { 0 };
+	struct sockaddr_in *saddr;
+	URL *t = (URL*)a;
+	printf("%s\n",t->getURLStr());
+	t->setStateToDB(1);
+	saddr = dnsc->DNS(t->getURLStr(),"80");
+	puts(inet_ntop( AF_INET , &(saddr->sin_addr) , buf , 16 ) );
+	return ;
 }
 
 int main()
@@ -30,13 +39,14 @@ int main()
 		return -1;
 	}
 	
-	TaskControl tasks( config->getJobNum() , test);
+	TaskControl tasks( config->getJobNum() , test );
 	URL *tUrl = NULL;
+
+//	raise( SIGRTMIN );
 
 	while( 1 )
 	{
 		urlm->loadURL();
-		printf("URLMSize:%d\n",urlm->getCurrentSize());
 		if (!tasks.getCurrentRun() && !urlm->getCurrentSize() )
 		{
 			break;
@@ -50,9 +60,9 @@ int main()
 			}
 		}
 
-		if ( config->getTimeout() != 0 )
+		if ( config->getDuration() != 0 )
 		{
-			sleep(config->getTimeout());
+			sleep(config->getDuration());
 		}
 
 	}

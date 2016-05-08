@@ -2,13 +2,15 @@
 .SUFFIXES:.cpp .o
 
 SRC=sockutils.c
-SRC1=SockToolMain.cpp
+#SRC1=SockToolMain.cpp
 OBJ=$(SRC:.c=.o)
-OBJ1=$(SRC1:.cpp=.o)
-EXE=SockToolMain
+#OBJ1=$(SRC1:.cpp=.o)
+#EXE=SockToolMain
 
-start:$(OBJ) $(OBJ1)
-	g++ $(OBJ) $(OBJ1) -o $(EXE) -g
+start:$(OBJ)
+# $(OBJ1)
+#	g++ $(OBJ) $(OBJ1) -o $(EXE) -g
+	mv *.o ../Debug
 .c.o:
 	gcc -c $< -o $@ -g
 .cpp.o:

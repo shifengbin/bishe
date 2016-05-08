@@ -7,12 +7,11 @@ start:
 	cd TaskControl;make
 	cd parserurl;make
 	cd URLManager;make
+	cd Output;make
+	cd HashList;make
 	
 
-	g++ main.cpp ./Debug/*.o -lpthread -ldl
+	g++ main.cpp ./Debug/*.o -lpthread -ldl 
+	mv a.out ./Debug
 clean:
-	cd log;make clean
-	cd ConfigParser;make clean
-	cd dns;make clean
-	cd Persistence;make clean
-	cd bloom;make clean
+	cd Debug;make

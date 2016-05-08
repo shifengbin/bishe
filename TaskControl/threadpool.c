@@ -93,6 +93,7 @@ int initThreadPool( ThreadPool **tp , int poolsize)
 	for( i = 0 ; i < poolsize ; i++ )
 	{
 		pthread_create( &(p->ids[i]) , NULL , work , p);
+		pthread_detach( p->ids[i] );
 	}
 
 	*tp = p;
@@ -116,11 +117,11 @@ int destroyThreadPool( ThreadPool **tp  )
 	p->isdestroy = 1;
 	pthread_cond_broadcast(&(p->cond));
 	
-	for( i = 0; i < p->count; i++)
+/*	for( i = 0; i < p->count; i++)
 	{
 		pthread_join(p->ids[i],NULL);
 	}
-
+*/
 	pthread_mutex_destroy(&(p->lock));
 	pthread_cond_destroy(&(p->cond));
 	

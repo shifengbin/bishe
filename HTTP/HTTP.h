@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "../SockTool/SockTool.h"
+#include "../Hex2I/Hex2I.h"
 
 #define BODYSIZE (1024*1024)
 

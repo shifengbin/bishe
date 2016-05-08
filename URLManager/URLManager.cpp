@@ -52,7 +52,7 @@ int load( void *um , int count, char **vals ,char **colname)
 		}
 //		puts(vals[i]);
 	}
-	printf("ADD %d %s\n",count,temp->getURLStr());
+//	printf("ADD %d %s\n",count,temp->getURLStr());
 	que->push( temp );
 	return 0;	
 }
