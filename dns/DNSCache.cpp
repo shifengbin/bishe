@@ -29,14 +29,15 @@ struct sockaddr_in* DNSCache::DNS(  char *host , char *port)
 	}
 	if ((saddr = (struct sockaddr_in*)hl.get( host ))== NULL)
 	{
+		pthread_mutex_lock(&lock);
 		saddr = dns( host , port );
 		if (saddr != NULL )
 		{
-			pthread_mutex_lock(&lock);
 			hl.set(host,saddr);
 			pthread_mutex_unlock(&lock);
 			return saddr;
 		}
+		pthread_mutex_unlock(&lock);
 		return NULL;
 	}
 	else
