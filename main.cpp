@@ -7,20 +7,8 @@
 #include "./TaskControl/TaskControl.h"
 #include "./log/mylog.h"
 #include "./dns/DNSCache.h"
-//#include "./Download/Download.h"
+#include "./Download/Download.h"
 
-void test( void * a)
-{
-	DNSCache *dnsc = DNSCache::getDNSCache();	
-	char buf[16] = { 0 };
-	struct sockaddr_in *saddr;
-	URL *t = (URL*)a;
-	printf("%s\n",t->getURLStr());
-	t->setStateToDB(1);
-	saddr = dnsc->DNS(t->getURLStr(),"80");
-	puts(inet_ntop( AF_INET , &(saddr->sin_addr) , buf , 16 ) );
-	return ;
-}
 
 int main()
 {
@@ -39,23 +27,26 @@ int main()
 		return -1;
 	}
 	
-	TaskControl tasks( config->getJobNum() , test );
+	TaskControl tasks( config->getJobNum() , download );
+	//TaskControl tasks( config->getJobNum() , test );
 	URL *tUrl = NULL;
 
-//	raise( SIGRTMIN );
 
 	while( 1 )
 	{
 		urlm->loadURL();
 		if (!tasks.getCurrentRun() && !urlm->getCurrentSize() )
 		{
+			puts("END");
 			break;
 		}
-
+		
+		//printf("run:%d count:%d\n",tasks.getCurrentRun(),urlm->getCurrentSize());
 		if ( tasks.isAllTaskDone() )
 		{
 			for ( int i = 0 ; i < config->getJobNum() && (tUrl = urlm->popURL()) !=NULL; i++)
 			{
+				//puts("addTask");
 				tasks.addTaskToQueue( tUrl);
 			}
 		}
@@ -63,6 +54,10 @@ int main()
 		if ( config->getDuration() != 0 )
 		{
 			sleep(config->getDuration());
+		}
+		else
+		{
+			sleep(1);
 		}
 
 	}

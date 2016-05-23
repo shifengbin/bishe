@@ -1,10 +1,10 @@
 #ifndef __HASHLIST_H__
 #define __HASHLIST_H__
 
-#ifndef NULL
+/*#ifndef NULL
 #define NULL ((void*)0)
 #endif
-
+*/
 #define LISTLENGTH 10
 
 #ifdef __cplusplus

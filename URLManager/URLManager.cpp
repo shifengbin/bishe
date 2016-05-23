@@ -17,15 +17,19 @@ int load( void *um , int count, char **vals ,char **colname)
 {
 	int i;
 	Queue<URL>* que = (Queue<URL>*)um;
-	URL *temp = new URL;
-	if ( temp == NULL )
+	if ( que == NULL )
 	{
 		return -1;
 	}
 	if (count <= 0)
 	{
-		delete temp;
 		return 0;
+	}
+
+	URL *temp = new URL;
+	if ( temp == NULL )
+	{
+		return -1;
 	}
 
 	for( i = 0; i < count; i++)
@@ -50,7 +54,6 @@ int load( void *um , int count, char **vals ,char **colname)
 		{
 			temp->setState( atoi( vals[i] ) );
 		}
-//		puts(vals[i]);
 	}
 //	printf("ADD %d %s\n",count,temp->getURLStr());
 	que->push( temp );

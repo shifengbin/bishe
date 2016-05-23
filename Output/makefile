@@ -1,3 +1,3 @@
 start:
-	gcc output.c -shared -fPIC -o outpus.so
+	gcc output.c -shared -fPIC -o output.so
 	mv *.so ../Debug

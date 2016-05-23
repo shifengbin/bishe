@@ -9,9 +9,11 @@ start:
 	cd URLManager;make
 	cd Output;make
 	cd HashList;make
+	cd SockTool;make
+	cd Download;make
 	
 
-	g++ main.cpp ./Debug/*.o -lpthread -ldl 
+	g++ main.cpp ./Debug/*.o -lpthread -ldl -g
 	mv a.out ./Debug
 clean:
-	cd Debug;make
+	cd Debug;rm *.o

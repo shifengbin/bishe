@@ -49,7 +49,10 @@ static void *work( void* arg)
 		//printf("Task:%x\n",pthread_self());
 		// run task
 		t->task(t->arg);
-		free(t);
+		if ( t != NULL )
+		{
+			free(t);
+		}
 		//task end
 		pthread_mutex_lock( &(pool->lock) );
 		pool->count--;
@@ -124,9 +127,11 @@ int destroyThreadPool( ThreadPool **tp  )
 */
 	pthread_mutex_destroy(&(p->lock));
 	pthread_cond_destroy(&(p->cond));
-	
-	free(p);
-	*tp = NULL;
+	if ( p != NULL )
+	{
+		free(p);
+		*tp = NULL;
+	}
 	return 0;
 }
 

@@ -17,6 +17,8 @@
 #define DEEPTH   "DEEPTH="
 #define METHOD   "METHOD="
 
+#define SEPARATOR "|"
+
 #define CONFIG_FILENAME "config.cfg"
 
 ConfigParser *ConfigParser::config = NULL;
@@ -143,7 +145,7 @@ ConfigParser::ConfigParser(const char *filename)
                     break;
                 }
 
-                if ( (pre = strstr( buf , ":")) != NULL)
+                if ( (pre = strstr( buf , SEPARATOR )) != NULL)
                 {
                     //应该写入数据库
                     *pre = '\0';
@@ -166,8 +168,8 @@ ConfigParser::ConfigParser(const char *filename)
                     break;
                 }
 
-                if ( (pre = strstr( buf , ":" )) != NULL &&
-                     (next = strstr( pre + 1 ,":")) != NULL)
+                if ( (pre = strstr( buf , SEPARATOR )) != NULL &&
+                     (next = strstr( pre + 1 , SEPARATOR )) != NULL)
                 {
                     *pre = '\0';
                     pre++;

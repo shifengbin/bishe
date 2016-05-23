@@ -3,6 +3,8 @@
 #include <netinet/in.h>
 #include "../HashList/HashLink.h"
 #include "dns.h"
+#include <unistd.h>
+#include <pthread.h>
 
 
 class DNSCache
@@ -11,47 +13,9 @@ class DNSCache
 		static DNSCache *dnsCa;
 		HashLink hl;
 		pthread_mutex_t lock;
-		DNSCache()
-		{
-			pthread_mutex_init( &lock , NULL);
-		}
+		DNSCache();
 	public:
-		static DNSCache* getDNSCache()
-		{
-			if ( dnsCa == NULL )
-			{
-				dnsCa = new DNSCache(); 
-			}
-			return dnsCa;
-		}
-		
-
-		struct sockaddr_in* DNS(  char *host , char *port)
-		{
-			struct sockaddr_in *saddr = NULL;
-
-			if ( host == NULL || port == NULL)
-			{
-				return NULL;
-			}
-			if ((saddr = (struct sockaddr_in*)hl.get( host ))== NULL)
-			{
-				saddr = dns( host , port );
-				if (saddr != NULL )
-				{
-					pthread_mutex_lock(&lock);
-					hl.set(host,saddr);
-					pthread_mutex_unlock(&lock);
-					return saddr;
-				}
-				return NULL;
-			}
-			else
-			{
-				return saddr;
-			}
-		}
-
+		static DNSCache* getDNSCache();
+		struct sockaddr_in* DNS(  char *host , char *port);
 };
-DNSCache* DNSCache::dnsCa = NULL;
 #endif
