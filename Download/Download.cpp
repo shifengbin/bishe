@@ -100,9 +100,10 @@ void download( void * args)
 		goto ret;
 	}
 	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
-//	puts(header);
-	printf("host:%s\nport:%s\nres:%s\n",host,port,res);
+	puts(header);
+	//printf("host:%s\nport:%s\nres:%s\n",host,port,res);
 	saddr = dnsch->DNS( host, port );
+	return;
 
 	if (saddr == NULL )
 	{

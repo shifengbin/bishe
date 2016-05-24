@@ -11,7 +11,8 @@ start:
 	cd HashList;make
 	cd SockTool;make
 	cd Download;make
-	
+	cd Hex2I;make	
+	cd HTTP;make
 
 	g++ main.cpp ./Debug/*.o -lpthread -ldl -g
 	mv a.out ./Debug
