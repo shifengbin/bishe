@@ -13,6 +13,7 @@ start:
 	cd Download;make
 	cd Hex2I;make	
 	cd HTTP;make
+	cd ModelTool;make
 
 	g++ main.cpp ./Debug/*.o -lpthread -ldl -g
 	mv a.out ./Debug

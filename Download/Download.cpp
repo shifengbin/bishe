@@ -1,50 +1,22 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <signal.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 
 #include "../URL/URL.h"
 #include "../dns/DNSCache.h"
-#include "../parserurl/parserurl.h"
+#include "../parserurl/URLParser.h"
 #include "../ModelTool/ModelTool.h"
 #include "../SockTool/SockTool.h"
 #include "../ConfigParser/configparser.h"
 #include "../HTTP/HTTP.h"
 #include "Download.h"
 
-static void (*output)(char *);
-static int  isInit = 0;
 
-void initModel()
-{
-	puts("initModel");
 
-	Model *model = new Model("output.so");
-	if ( model->isOpenSuccess() )
-	{
-		output = (void(*)(char*)) model->getMethod("output");
-		isInit = 1;
-	}
-	delete model;
-}
-
-void loaddll( int sig )
-{
-	puts("loaddll");
-	Model *model = NULL;
-	if ( sig == SIGRTMIN )
-	{
-		model = new Model("output.so");
-		if ( model->isOpenSuccess() )
-		{
-			output =(void(*)(char*)) model->getMethod("output");
-		}
-			delete model;
-	}
-}
 
 void download( void * args)
 {
@@ -73,17 +45,13 @@ void download( void * args)
 	char *port = NULL;
 	char *res = NULL;
 	int tRet = 0;
+	int ffd;
 	HTTP *respond = NULL;
-	signal( SIGRTMIN , loaddll );
 
 	tURL->setStateToDB(1);
 
 //	puts("Download");
 
-	if ( !isInit )
-	{
-		initModel();
-	}
 
 	DNSCache *dnsch = DNSCache::getDNSCache();
 	if ( tURL == NULL )
@@ -91,9 +59,9 @@ void download( void * args)
 		return;
 	}
 	
-	host = gethost( tURL->getURLStr() );
-	port = getport( tURL->getURLStr() );
-	res = getres( tURL->getURLStr() );
+	host = URLParser::getHost( tURL->getURLStr() );
+	port = URLParser::getPort( tURL->getURLStr() );
+	res =  URLParser::getRes( tURL->getURLStr() );
 	if ( host == NULL || port == NULL || res == NULL )
 	{
 		puts("host or port or res is NULL");
@@ -103,7 +71,7 @@ void download( void * args)
 	puts(header);
 	//printf("host:%s\nport:%s\nres:%s\n",host,port,res);
 	saddr = dnsch->DNS( host, port );
-	return;
+//	return;
 
 	if (saddr == NULL )
 	{
@@ -133,31 +101,35 @@ void download( void * args)
 		goto retc;
 	}
 	tURL->setStateToDB(respond->getState());
-	puts(respond->getBody());
+//	puts(respond->getBody());
 //	output( respond->getBody());
+	ffd = open( "aa.html" , O_CREAT|O_WRONLY|O_APPEND,0666);
+	write( ffd , respond->getBody(),strlen(respond->getBody()));
+	close(ffd);
 	puts("Output");
 	if ( respond != NULL )
 	{
 		delete respond;
 	}
+	
 retc:
 	close(sock);
 ret:
 	if ( host != NULL )
 	{
-		free(host);
+		URLParser::deleteMemery((void*)host);
 	}
 	if ( port != NULL )
 	{
-		free( port );
+		URLParser::deleteMemery((void*) port );
 	}
 	if ( res != NULL )
 	{
-		free( res );
+		URLParser::deleteMemery((void*) res );
 	}
 	if ( tURL != NULL )
 	{
-		free( tURL );
+		URLParser::deleteMemery((void*) tURL );
 	}
 	return;
 }

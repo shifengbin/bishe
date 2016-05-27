@@ -3,8 +3,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void initModel();
-void loaddll( int sig );
 void download( void * args);
 #ifdef __cplusplus
 }
