@@ -20,25 +20,9 @@
 
 void download( void * args)
 {
-/*
-	
-	URL *t = (URL*)args;
-	DNSCache *dnsc = DNSCache::getDNSCache();
-        char buf[16] = { 0 };
-        struct sockaddr_in *saddr;
-	signal( SIGRTMIN , loaddll );
-	initModel();
-        printf("%s\n",t->getURLStr());
-        t->setStateToDB(1);
-        saddr = dnsc->DNS(gethost(t->getURLStr()),getport( t->getURLStr() ));
-        puts(inet_ntop( AF_INET , &(saddr->sin_addr) , buf , 16 ) );
-	free(t);
-        return ;
-*/
 	
 	URL *tURL = (URL*)args;
 	char header[1024] = { 0 };
-	ConfigParser *config = ConfigParser::getConfigParser();
 	int sock;
 	struct sockaddr_in *saddr = NULL;
 	char *host = NULL;
@@ -47,11 +31,9 @@ void download( void * args)
 	int tRet = 0;
 	int ffd;
 	HTTP *respond = NULL;
+	ConfigParser *config = ConfigParser::getConfigParser();
 
 	tURL->setStateToDB(1);
-
-//	puts("Download");
-
 
 	DNSCache *dnsch = DNSCache::getDNSCache();
 	if ( tURL == NULL )
@@ -67,11 +49,10 @@ void download( void * args)
 		puts("host or port or res is NULL");
 		goto ret;
 	}
+	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
 	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
-	puts(header);
-	//printf("host:%s\nport:%s\nres:%s\n",host,port,res);
+	//puts(header);
 	saddr = dnsch->DNS( host, port );
-//	return;
 
 	if (saddr == NULL )
 	{
