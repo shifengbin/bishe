@@ -30,6 +30,7 @@ void download( void * args)
 	char *res = NULL;
 	int tRet = 0;
 	int ffd;
+	char filename[128] = { 0 };
 	HTTP *respond = NULL;
 	ConfigParser *config = ConfigParser::getConfigParser();
 
@@ -82,12 +83,17 @@ void download( void * args)
 		goto retc;
 	}
 	tURL->setStateToDB(respond->getState());
+	printf("State:%d\n",respond->getState());
 //	puts(respond->getBody());
 //	output( respond->getBody());
-	ffd = open( "aa.html" , O_CREAT|O_WRONLY|O_APPEND,0666);
-	write( ffd , respond->getBody(),strlen(respond->getBody()));
-	close(ffd);
-	puts("Output");
+	if ( respond->getState() / 100 == 2 )
+	{
+		sprintf(filename,"%s.html",host);
+		puts(filename);
+		ffd = open( filename, O_CREAT|O_WRONLY,0666);
+		write( ffd , respond->getBody(),strlen(respond->getBody()));
+		close(ffd);
+	}
 	if ( respond != NULL )
 	{
 		delete respond;

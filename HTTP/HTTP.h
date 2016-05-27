@@ -14,6 +14,7 @@ class HTTP
 {
 private:
 	Header header;
+	static pthread_mutex_t lock;
 	char* body;
 public:
 	HTTP( int );

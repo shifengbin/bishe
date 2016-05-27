@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #include "../SockTool/SockTool.h"
 #include "../Hex2I/Hex2I.h"
 #include "./HTTP.h"
 
-
+pthread_mutex_t HTTP::lock = PTHREAD_MUTEX_INITIALIZER ;
 HTTP::HTTP( int fd )
 {
 	char buf[1024*100] = { 0 };
@@ -52,7 +53,9 @@ HTTP::HTTP( int fd )
         }
 	if ( this->header.state/200 == 1 )
 	{
+		pthread_mutex_lock(&lock);
 		this->body = (char *)malloc( BODYSIZE );
+		pthread_mutex_unlock(&lock);
 	}
 	else
 	{
@@ -93,7 +96,11 @@ HTTP::HTTP( int fd )
 HTTP::~HTTP()
 {
 	if ( this->body != NULL )
+	{
+		pthread_mutex_lock(&lock);
 		free( this->body );
+		pthread_mutex_unlock(&lock);
+	}
 }
 int HTTP::getState()
 {
