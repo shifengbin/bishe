@@ -50,9 +50,10 @@ void download( void * args)
 		puts("host or port or res is NULL");
 		goto ret;
 	}
-	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
-	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
+//	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
+	//sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
 	//puts(header);
+	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\n\r\n",res,host);
 	saddr = dnsch->DNS( host, port );
 
 	if (saddr == NULL )
