@@ -21,9 +21,9 @@ int main()
 	
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons( 80 );
-	addr.sin_addr.s_addr = inet_addr("220.181.112.244");
+	addr.sin_addr.s_addr = inet_addr("115.159.231.166");
 	SockTool::connectTimeout( fd , &addr, 10 );
-	sprintf(buf,"GET / HTTP/1.1\r\nHost: www.baidu.com\r\n\r\n");
+	sprintf(buf,"GET /changecity.aspx HTTP/1.1\r\nHost: www.58.com\r\n\r\n");
 	SockTool::writeN(fd , buf , strlen( buf ) );
 	memset( buf , 0 , sizeof( buf ));
 	HTTP *t = new HTTP(fd);

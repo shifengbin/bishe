@@ -6,7 +6,11 @@ class SockTool
 {
 private:
 	static pthread_mutex_t lock;
+	static pthread_mutex_t socklock;
+	static pthread_mutex_t sockclose;
 public:
+	static int Socket();
+	static int Close( int sock );
 	static int setNonBlock( int fd );
 	static int setBlock( int fd );
 	static int readTimeout( int fd, int sec );

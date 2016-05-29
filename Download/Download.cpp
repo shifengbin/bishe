@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include "../URL/URL.h"
 #include "../dns/DNSCache.h"
@@ -14,6 +15,7 @@
 #include "../ConfigParser/configparser.h"
 #include "../HTTP/HTTP.h"
 #include "Download.h"
+#include "MatchURL.h"
 
 
 
@@ -31,6 +33,7 @@ void download( void * args)
 	int tRet = 0;
 	int ffd;
 	char filename[128] = { 0 };
+	
 	HTTP *respond = NULL;
 	ConfigParser *config = ConfigParser::getConfigParser();
 
@@ -42,6 +45,10 @@ void download( void * args)
 		return;
 	}
 	
+	if ( config->getMode(tURL->getType()) )
+	{
+		puts(config->getMode(tURL->getType())->getMode() );
+	}
 	host = URLParser::getHost( tURL->getURLStr() );
 	port = URLParser::getPort( tURL->getURLStr() );
 	res =  URLParser::getRes( tURL->getURLStr() );
@@ -50,7 +57,7 @@ void download( void * args)
 		puts("host or port or res is NULL");
 		goto ret;
 	}
-//	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
+	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
 	//sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
 	//puts(header);
 	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\n\r\n",res,host);
@@ -62,17 +69,18 @@ void download( void * args)
 		goto ret;
 	}
 	puts(inet_ntoa(saddr->sin_addr));	
-	sock = socket( AF_INET , SOCK_STREAM , 0 );
+	sock = SockTool::Socket();
 	if ( sock == -1 )
 	{
 		puts("create socket error");
 		goto ret;
 	}
-	
+		
 	tRet = SockTool::connectTimeout( sock , saddr , config->getTimeout());
 	if ( tRet == -1 )
 	{
-		puts("timeout");
+		//puts("timeout");
+		perror("Connect");
 		goto retc;
 	}
 
@@ -83,17 +91,22 @@ void download( void * args)
 		puts("get respond error");
 		goto retc;
 	}
+	puts(respond->getBody());
 	tURL->setStateToDB(respond->getState());
 	printf("State:%d\n",respond->getState());
-//	puts(respond->getBody());
-//	output( respond->getBody());
 	if ( respond->getState() / 100 == 2 )
 	{
-		sprintf(filename,"%s.html",host);
+/*		sprintf(filename,"%s.html",host);
 		puts(filename);
 		ffd = open( filename, O_CREAT|O_WRONLY,0666);
 		write( ffd , respond->getBody(),strlen(respond->getBody()));
 		close(ffd);
+*/
+		if ( config->getMode(tURL->getType()) )
+	        {
+               		GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody());
+       		}
+
 	}
 	if ( respond != NULL )
 	{
@@ -101,7 +114,7 @@ void download( void * args)
 	}
 	
 retc:
-	close(sock);
+	SockTool::Close(sock);
 ret:
 	if ( host != NULL )
 	{

@@ -15,7 +15,7 @@ start:
 	cd HTTP;make
 	cd ModelTool;make
 
-	g++ main.cpp ./Debug/*.o -lpthread -ldl -g
+	g++ main.cpp ./Debug/*.o -lpthread -ldl -lpcre2-posix -lpcre2-8 -g
 	mv a.out ./Debug
 clean:
 	cd Debug;rm *.o

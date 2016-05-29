@@ -14,6 +14,7 @@ HTTP::HTTP( int fd )
 	char *temp = NULL;
 	char *next = NULL;
 	int n = 0;
+	this->header.length = 0;
 	SockTool::readLine( fd, buf ,1024 );
 	//get http state
 	if ( ( temp = strstr( buf , " ")) != NULL )
@@ -51,7 +52,7 @@ HTTP::HTTP( int fd )
                 }
                 memset( buf , 0 , sizeof( buf ));
         }
-	if ( this->header.state/200 == 1 )
+	if ( this->header.state/100 == 2 )
 	{
 		pthread_mutex_lock(&lock);
 		this->body = (char *)malloc( BODYSIZE );
@@ -62,7 +63,8 @@ HTTP::HTTP( int fd )
 		this->body = NULL;
 		return;
 	}
-	if( this->header.length < 0 )
+	memset( buf, 0 , sizeof(buf));
+	if( this->header.length <= 0 )
 	{
         	for( ;; )
         	{
@@ -72,7 +74,7 @@ HTTP::HTTP( int fd )
                         	*temp = '\0';
                 	}
                 	n = hex2i(buf) + 2;
-
+			printf("Length:%s=%d\n",buf,n);
 
                 	if ( n == 2 )
                 	{
@@ -83,6 +85,7 @@ HTTP::HTTP( int fd )
 			{
                         	*temp = '\0';
                 	}
+			printf("BUF:\n%s\n",buf);
                 	strcat( this->body , buf);
                 	memset( buf , 0 , sizeof( buf ));
         	}

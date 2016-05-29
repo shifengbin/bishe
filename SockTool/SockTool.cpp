@@ -1,8 +1,29 @@
 #include <pthread.h>
+#include <unistd.h>
 #include "sockutils.h"
 #include "./SockTool.h"
 
 pthread_mutex_t SockTool::lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t SockTool::socklock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t SockTool::sockclose = PTHREAD_MUTEX_INITIALIZER;
+
+int SockTool::Socket()
+{
+	int fd;
+	pthread_mutex_lock(&socklock);
+	fd = socket( AF_INET , SOCK_STREAM , 0 );
+	pthread_mutex_unlock(&socklock);
+	return fd;
+}
+
+int SockTool::Close( int fd )
+{
+	pthread_mutex_lock(&sockclose);
+	close(fd);
+	pthread_mutex_unlock(&sockclose);
+	return 1;
+}
+
 int SockTool::setNonBlock( int fd )
 {
 	return setnonblock(fd);
