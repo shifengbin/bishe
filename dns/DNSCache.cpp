@@ -1,20 +1,24 @@
 #include <netinet/in.h>
+#include <pthread.h>
 #include "../HashList/HashLink.h"
 #include "dns.h"
 #include "DNSCache.h"
 
 DNSCache *DNSCache::dnsCa = NULL;
 
+pthread_mutex_t DNSCache::lock = PTHREAD_MUTEX_INITIALIZER;
+
 DNSCache::DNSCache()
 {
-	pthread_mutex_init( &lock , NULL);
 }
 
 DNSCache* DNSCache::getDNSCache()
 {
 	if ( dnsCa == NULL )
 	{
+		pthread_mutex_lock(&lock);
 		dnsCa = new DNSCache(); 
+		pthread_mutex_unlock(&lock);
 	}
 	return dnsCa;
 }
@@ -27,9 +31,9 @@ struct sockaddr_in* DNSCache::DNS(  char *host , char *port)
 	{
 		return NULL;
 	}
+	pthread_mutex_lock(&lock);
 	if ((saddr = (struct sockaddr_in*)hl.get( host ))== NULL)
 	{
-		pthread_mutex_lock(&lock);
 		saddr = dns( host , port );
 		if (saddr != NULL )
 		{
@@ -42,6 +46,7 @@ struct sockaddr_in* DNSCache::DNS(  char *host , char *port)
 	}
 	else
 	{
+		pthread_mutex_unlock(&lock);
 		return saddr;
 	}
 }

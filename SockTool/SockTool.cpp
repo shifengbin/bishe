@@ -52,9 +52,9 @@ int SockTool::acceptTimeout( int fd , struct sockaddr_in *addr , int sec )
 int SockTool::connectTimeout( int fd, struct sockaddr_in *addr, int sec )
 {
 	int ret;
-	pthread_mutex_lock(&lock);
+//	pthread_mutex_lock(&lock);
 	ret = connect_timeout( fd, addr , sec );
-	pthread_mutex_unlock(&lock);
+//	pthread_mutex_unlock(&lock);
 	return ret;
 }
 

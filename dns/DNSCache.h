@@ -12,7 +12,7 @@ class DNSCache
 	private:
 		static DNSCache *dnsCa;
 		HashLink hl;
-		pthread_mutex_t lock;
+		static pthread_mutex_t lock;
 		DNSCache();
 	public:
 		static DNSCache* getDNSCache();

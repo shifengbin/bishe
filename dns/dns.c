@@ -19,7 +19,7 @@ struct sockaddr_in *dns( char *hostname ,char *port)
 	}
 	memset(&i,0 ,sizeof(struct addrinfo));
 	i.ai_family = AF_INET;
-	i.ai_flags = AI_PASSIVE;
+//	i.ai_flags = AI_PASSIVE;
 	i.ai_socktype = SOCK_STREAM;
 	ret = getaddrinfo(hostname,port,&i,&ai);
 	if (ret != 0 && ai == NULL)
@@ -35,7 +35,10 @@ struct sockaddr_in *dns( char *hostname ,char *port)
 	}
 	memset(p, 0 , sizeof(struct sockaddr_in));
 	memcpy(p,ai->ai_addr,sizeof(struct sockaddr_in));
-	
+/*	p->sin_family = AF_INET;
+	p->sin_port = htons(atoi(port));
+	memcpy( &(p->sin_addr) ,&(ai->ai_addr->sin_addr) , sizeof(struct in_addr) );
+*/	
 	freeaddrinfo(ai);
 	return p;
 	
