@@ -17,7 +17,7 @@
 #include "Download.h"
 #include "MatchURL.h"
 
-
+static int aaaa = 0;
 
 
 void download( void * args)
@@ -96,17 +96,18 @@ void download( void * args)
 	printf("State:%d\n",respond->getState());
 	if ( respond->getState() / 100 == 2 )
 	{
-/*		sprintf(filename,"%s.html",host);
-		puts(filename);
+		sprintf(filename,"file%d.html",aaaa);
+		aaaa++;
+		//puts(filename);
 		ffd = open( filename, O_CREAT|O_WRONLY,0666);
 		write( ffd , respond->getBody(),strlen(respond->getBody()));
 		close(ffd);
-*/
+
 		if ( config->getMode(tURL->getType()) )
 	        {
-               		GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody());
+               		GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
        		}
-
+		//puts(respond->getBody());
 	}
 	if ( respond != NULL )
 	{

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "../URL/URL.h"
 #include "MatchURL.h"
 #include "../bloom/BloomFilter.h"
 
@@ -10,7 +11,7 @@ int isAbsoluteURL( const char *url)
 	return !(strstr( url , "//" ) == NULL);
 }
 
-void GetURLFromBody( ModePair *pattern , char *host ,  char *body)
+void GetURLFromBody( ModePair *pattern , char *host ,  char *body, int deep)
 {
 	regex_t reg,http;
 	regmatch_t pmatch;
@@ -51,17 +52,23 @@ void GetURLFromBody( ModePair *pattern , char *host ,  char *body)
 			*c = '\0';
 			if ( isAbsoluteURL( temp + 6 ) )	
 			{
-				sprintf(url,"%s",temp);
+				sprintf(url,"%s",temp+6);
 			}
 			else
 			{
-				sprintf(url,"http://%s%s",host,temp);
+				sprintf(url,"http://%s%s",host,temp+6);
 			}
 			///--------------store database
-			if ( !Bloom::isExist(url+6) )
+			if ( !Bloom::isExist(url) )
 			{
-				Bloom::addFilter(url+6);
-				puts(url+6);
+				Bloom::addFilter(url);
+				puts(url);
+				URL *u = new URL();
+				u->setType(pattern->getType());
+				u->setURLStr(url);
+				u->setDeep(deep+1);
+				u->save();
+				delete u;
 			}
 			///--------------
 			*c = chr;

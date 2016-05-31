@@ -99,6 +99,14 @@ public:
 		db->exec(buf);
 	
 	}
+	
+	int save()
+	{
+		char buf[1024] = { 0 };
+		Persistence *db = Persistence::getPersistence();
+		sprintf(buf,"insert into url(urlstr,type,deep) values('%s',%d,%d)",this->urlStr,this->type,this->deep);
+		db->exec(buf);
+	}
 };
 
 #endif
