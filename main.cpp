@@ -14,7 +14,7 @@
 
 #include "./parserurl/URLParser.h"
 
-void test( void * a)
+/*void test( void * a)
 {
 	DNSCache *dnsc = DNSCache::getDNSCache();
 	char buf[16] = { 0 };
@@ -54,7 +54,7 @@ void test( void * a)
 	close(fd);
 	return ;
 }
-
+*/
 
 int main()
 {

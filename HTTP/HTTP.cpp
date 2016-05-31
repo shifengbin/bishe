@@ -7,10 +7,32 @@
 #include "../Hex2I/Hex2I.h"
 #include "./HTTP.h"
 
+int isHex( char *num)
+{
+	while( *num != '\r' )
+	{
+		if ( *num >='0' && *num <= '9' || *num >= 'a' && *num <='f' ||*num>='A' && *num <='F')
+		{
+			;
+		}else
+		{
+			return 0;
+		}
+		num++;
+	}
+	if ( *(num+1) == '\n')
+	{
+		return 1;
+	}
+	return 0;
+}
+
+
+
 pthread_mutex_t HTTP::lock = PTHREAD_MUTEX_INITIALIZER ;
 HTTP::HTTP( int fd )
 {
-	char buf[1024*100] = { 0 };
+	char buf[1024*1024] = { 0 };
 	char *temp = NULL;
 	char *next = NULL;
 	int n = 0;
@@ -25,6 +47,8 @@ HTTP::HTTP( int fd )
 			*next = '\0';
 			this->header.state = atoi( temp );
 		}
+		//----debug---
+		puts(buf);
 		memset( buf, 0 , sizeof(buf));
 	}
 	//get other of http header
@@ -46,6 +70,8 @@ HTTP::HTTP( int fd )
 				this->header.length = atoi( temp );
 			}
 		}
+		//---debug---
+		puts(buf);
                 if ( !strncmp(buf,"\r\n",2) )
                 {
                         break;
@@ -56,6 +82,7 @@ HTTP::HTTP( int fd )
 	{
 		pthread_mutex_lock(&lock);
 		this->body = (char *)malloc( BODYSIZE );
+		memset( this->body , 0 , BODYSIZE);
 		pthread_mutex_unlock(&lock);
 	}
 	else
@@ -69,26 +96,46 @@ HTTP::HTTP( int fd )
         	for( ;; )
         	{
                 	SockTool::readLine( fd, buf , sizeof(buf) );
-                	if ( (temp = strstr( buf , "\r")) != NULL )
+			if ( !strncmp(buf, "\r\n",2) )
+			{
+				continue;
+			}
+			if ( isHex(buf) )
+			{
+				n = hex2i(buf);
+				if ( n == 0 )
+				{
+					break;
+				}
+				continue;
+			}
+			strcat( this->body , buf );
+			memset(buf ,0, sizeof(buf));
+/*                	if ( (temp = strstr( buf , "\r")) != NULL )
                 	{
                         	*temp = '\0';
                 	}
                 	n = hex2i(buf) + 2;
+			//---debug---
 			printf("Length:%s=%d\n",buf,n);
 
                 	if ( n == 2 )
                 	{
                         	break;
                 	}
+//			SockTool::readLine( fd , buf , sizeof(buf) );
+			memset( buf, 0 , sizeof( buf ));
                 	SockTool::readN(fd , buf , sizeof( buf ),n );
                 	if ( (temp = strstr( buf , "\r")) != NULL ) 
 			{
                         	*temp = '\0';
                 	}
+			//---debug---
 			printf("BUF:\n%s\n",buf);
                 	strcat( this->body , buf);
-                	memset( buf , 0 , sizeof( buf ));
+                	memset( buf , 0 , sizeof( buf ));*/
         	}
+
 	}
 	else
 	{
