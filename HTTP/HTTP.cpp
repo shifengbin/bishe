@@ -48,7 +48,7 @@ HTTP::HTTP( int fd )
 			this->header.state = atoi( temp );
 		}
 		//----debug---
-		puts(buf);
+//		puts(buf);
 		memset( buf, 0 , sizeof(buf));
 	}
 	//get other of http header
@@ -71,7 +71,7 @@ HTTP::HTTP( int fd )
 			}
 		}
 		//---debug---
-		puts(buf);
+//		puts(buf);
                 if ( !strncmp(buf,"\r\n",2) )
                 {
                         break;

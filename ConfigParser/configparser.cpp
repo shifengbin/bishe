@@ -5,6 +5,7 @@
 
 #include "configparser.h"
 #include "../Persistence/Persistence.h"
+#include "../bloom/BloomFilter.h"
 
 
 #define BUFSIZE 1024
@@ -153,7 +154,12 @@ ConfigParser::ConfigParser(const char *filename)
 //                    std::cout <<"URL:"<<buf<<" TYPE:"<<atoi(pre)<<std::endl;
 		    sprintf( sql ,"insert into URL(urlstr,type) values('%s',%d)",buf,atoi(pre));
 		    
-		    db->exec(sql);
+//		    db->exec(sql);
+		    if ( !Bloom::isExist(buf) )
+		    {
+			Bloom::addFilter(buf);
+			db->exec(sql);
+		    }
                 }
             }
 

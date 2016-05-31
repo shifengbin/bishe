@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "MatchURL.h"
+#include "../bloom/BloomFilter.h"
 
 int isAbsoluteURL( const char *url)
 {
@@ -37,7 +38,7 @@ void GetURLFromBody( ModePair *pattern , char *host ,  char *body)
 	{
 		if (regexec(&reg,temp,1,&pmatch,0) == REG_NOMATCH)
 		{
-			puts("NO Match");
+//			puts("NO Match");
 			break;
 		}
 		else
@@ -57,7 +58,11 @@ void GetURLFromBody( ModePair *pattern , char *host ,  char *body)
 				sprintf(url,"http://%s%s",host,temp);
 			}
 			///--------------store database
-			puts(url);
+			if ( !Bloom::isExist(url+6) )
+			{
+				Bloom::addFilter(url+6);
+				puts(url+6);
+			}
 			///--------------
 			*c = chr;
 			temp+=len;

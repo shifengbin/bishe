@@ -91,7 +91,7 @@ void download( void * args)
 		puts("get respond error");
 		goto retc;
 	}
-	puts(respond->getBody());
+//	puts(respond->getBody());
 	tURL->setStateToDB(respond->getState());
 	printf("State:%d\n",respond->getState());
 	if ( respond->getState() / 100 == 2 )

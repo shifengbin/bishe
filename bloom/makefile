@@ -7,7 +7,8 @@ OBJ=$(SRC:.c=.o)
 CC=gcc
 CXX=g++
 start:$(OBJ)
-#	$(CXX) $(OBJ) $(OBJ1) -o $(EXE) -L../Debug
+#$(CXX) $(OBJ) $(OBJ1) -o $(EXE) -L../Debug
+	$(CXX) -c ./BloomFilter.cpp
 	mv *.o ../Debug
 .c.o:
 	$(CC) -c $< -o $@
