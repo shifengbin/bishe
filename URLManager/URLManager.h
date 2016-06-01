@@ -4,7 +4,7 @@
 #include "../URL/URL.h"
 #include "../Queue/Queue.h"
 
-#define URLMAXSIZE 100
+#define URLMAXSIZE 10
 #define URLLESSIZE 2
 
 class URLManager
