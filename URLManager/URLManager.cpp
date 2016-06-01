@@ -103,7 +103,7 @@ int URLManager::loadURL()
 		{
 			return -1;
 		}
-		sprintf(sql,"select * from url where state=0 limit %d",loadcount);
+		sprintf(sql,"select * from url where state=0 order by id desc limit %d",loadcount);
 		db->query(sql,load,this->urlQue);
 	}
 		//nothing
