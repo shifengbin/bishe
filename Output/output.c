@@ -42,7 +42,7 @@ void output( char *host , char *body , int type)
 	}
 	else
 	{
-
+		puts("match");
 	}
 	regfree(&reg);
 }
