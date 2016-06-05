@@ -2,6 +2,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <pcre2posix.h>
+
 
 
 static int num = 0;
@@ -25,4 +27,5 @@ void output( char *host,char *body,int type )
 void output( char *host , char *body , int type)
 {
 		
-}*/
+}
+*/

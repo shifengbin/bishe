@@ -106,16 +106,6 @@ void download( void * args)
 		write( ffd , respond->getBody(),strlen(respond->getBody()));
 		close(ffd);
 */
-		model->init();
-		if ( model->output != NULL )
-		{
-	//		puts("Output`````````````````");
-			model->output(host,respond->getBody(),tURL->getType());
-		}
-		else
-		{
-			puts("Output is NULL");
-		}
 
 		if ( config->getMode(tURL->getType())  )
 	        {
@@ -134,6 +124,17 @@ void download( void * args)
 			}
        		}
 		//puts(respond->getBody());
+		
+		model->init();
+		if ( model->output != NULL )
+		{
+	//		puts("Output`````````````````");
+			model->output(host,respond->getBody(),tURL->getType());
+		}
+		else
+		{
+			puts("Output is NULL");
+		}
 	}
 	if ( respond != NULL )
 	{
