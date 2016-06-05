@@ -5,7 +5,7 @@
 
 
 static int num = 0;
-void output( char *body )
+void output( char *host,char *body,int type )
 {
 	char filename[100] = { 0 };
 	int fd;

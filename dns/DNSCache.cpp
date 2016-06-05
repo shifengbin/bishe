@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <netinet/in.h>
 #include <pthread.h>
 #include "../HashList/HashLink.h"
@@ -38,6 +39,8 @@ struct sockaddr_in* DNSCache::DNS(  char *host , char *port)
 		if (saddr != NULL )
 		{
 			hl.set(host,saddr);
+			//------debug
+			puts("DNS CaCHED!");
 			pthread_mutex_unlock(&lock);
 			return saddr;
 		}

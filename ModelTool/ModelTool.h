@@ -7,15 +7,21 @@
 	Link with -ldl.
 */
 
+typedef void(*OUTPUTFUNC)(char*,char*,int);
+
 class Model
 {
 private:
+	static Model *model;
 	void *handle;
-public:
 	Model( const char *filename );
+public:
+	OUTPUTFUNC output;
+	static Model *getModel();
 	~Model();
-	void *getMethod( const char *funcName );
+	OUTPUTFUNC getMethod( const char *funcName );
 	int   isOpenSuccess();
+	void init();
 };
 
 

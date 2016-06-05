@@ -1,10 +1,27 @@
+#include <stdio.h>
 #include <dlfcn.h>
 #include <unistd.h>
 #include "ModelTool.h"
 
+Model *Model::model = NULL;
+
+Model *Model::getModel()
+{
+	if (model == NULL)
+	{
+		model = new Model("./output.so");
+	}
+	return model;
+}
+
 Model::Model( const char *filename )
 {
+	output = NULL;
 	this->handle = dlopen( filename , RTLD_NOW );
+	if ( this->handle == NULL )
+	{
+		puts(dlerror());
+	}
 }
 
 Model::~Model()
@@ -15,9 +32,14 @@ Model::~Model()
 	}
 }
 
-void *Model::getMethod( const char *funcName )
+OUTPUTFUNC Model::getMethod( const char *funcName )
 {
-	return dlsym( this->handle , funcName );
+	output = (OUTPUTFUNC)dlsym( this->handle, funcName);
+	if ( output == NULL  )
+	{
+		puts("getMethod Error``````````````");
+	}
+	return output;
 }
 
 int Model::isOpenSuccess()
@@ -27,3 +49,11 @@ int Model::isOpenSuccess()
 	return 1;
 }
 
+void Model::init()
+{
+	if (output != NULL )
+	{
+		return;
+	}
+	this->getMethod("output");
+}

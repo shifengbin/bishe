@@ -33,7 +33,7 @@ void download( void * args)
 	int tRet = 0;
 	int ffd;
 	char filename[128] = { 0 };
-	
+	Model *model = NULL;	
 	HTTP *respond = NULL;
 	ConfigParser *config = ConfigParser::getConfigParser();
 
@@ -94,14 +94,28 @@ void download( void * args)
 //	puts(respond->getBody());
 	tURL->setStateToDB(respond->getState());
 	printf("State:%d\n",respond->getState());
+
+	model = Model::getModel();
+
 	if ( respond->getState() / 100 == 2 )
 	{
-		sprintf(filename,"file%d.html",aaaa);
+/*		sprintf(filename,"file%d.html",aaaa);
 		aaaa++;
 		//puts(filename);
 		ffd = open( filename, O_CREAT|O_WRONLY,0666);
 		write( ffd , respond->getBody(),strlen(respond->getBody()));
 		close(ffd);
+*/
+		model->init();
+		if ( model->output != NULL )
+		{
+			puts("Output`````````````````");
+			model->output(host,respond->getBody(),tURL->getType());
+		}
+		else
+		{
+			puts("Output is NULL `````````````````");
+		}
 
 		if ( config->getMode(tURL->getType()) )
 	        {
