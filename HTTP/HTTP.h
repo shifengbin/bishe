@@ -1,7 +1,7 @@
 #ifndef HTTP_H
 #define HTTP_H
 
-#define BODYSIZE (1024*1024)
+#define BODYSIZE (1024*1024*3)
 
 typedef struct Header
 {
