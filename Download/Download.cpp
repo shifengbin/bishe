@@ -119,12 +119,17 @@ void download( void * args)
 
 		if ( config->getMode(tURL->getType())  )
 	        {
-			if( config->getMethod() && tURL->getDeep() <= config->getDeepth() )
+			if( config->getMethod()  )
 			{
-               			GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
+//				puts("Method=1");
+				if ( tURL->getDeep() < config->getDeepth() )
+				{
+               				GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
+				}
 			}
 			else
 			{
+//				puts("Method=0");
 				GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
 			}
        		}
