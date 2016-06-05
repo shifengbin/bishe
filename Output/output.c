@@ -12,7 +12,7 @@ void save(char *cityName ,  char  *body)
 	regex_t reg;
 	regmatch_t pmatch;
 	char *href = "href=\\\"http.*?\\\"";//get info url reg
-	char ref[255] = { 0 };
+	char ref[1024] = { 0 };
 	char *temp = body;
 	
 	int len = 0;
@@ -113,7 +113,7 @@ void output( char *host , char *body , int type)
 	regfree(&cityr);
 	return;
 }
-
+/*
 int main()
 {
 	char *buf = malloc( 1024*1024 *3 );
@@ -124,3 +124,4 @@ int main()
 	close(fd);
 	return 0;
 }
+*/
