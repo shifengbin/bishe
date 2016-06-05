@@ -49,6 +49,7 @@ struct sockaddr_in* DNSCache::DNS(  char *host , char *port)
 	}
 	else
 	{
+		puts("Get Cache");
 		pthread_mutex_unlock(&lock);
 		return saddr;
 	}

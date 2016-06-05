@@ -62,7 +62,7 @@ void GetURLFromBody( ModePair *pattern , char *host ,  char *body, int deep)
 			if ( !Bloom::isExist(url) )
 			{
 				Bloom::addFilter(url);
-				puts(url);
+//				puts(url);
 				URL *u = new URL();
 				u->setType(pattern->getType());
 				u->setURLStr(url);

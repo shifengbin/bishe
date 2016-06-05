@@ -48,14 +48,15 @@ int load( void *um , int count, char **vals ,char **colname)
 		}
 		else if ( !strcasecmp( DEEP , colname[i]) )
 		{
-			temp->setState( atoi( vals[i] ) );
+			temp->setDeep( atoi( vals[i] ) );
 		}
 		else if ( !strcasecmp( STATE , colname[i] ) )
 		{
 			temp->setState( atoi( vals[i] ) );
 		}
+//		printf("%s=%s\n",colname[i],vals[i]);
 	}
-//	printf("ADD %d %s\n",count,temp->getURLStr());
+//	printf("ADD %s:%d\n",temp->getURLStr(),temp->getDeep());
 	que->push( temp );
 	return 0;	
 }

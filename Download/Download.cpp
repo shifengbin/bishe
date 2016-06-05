@@ -17,7 +17,7 @@
 #include "Download.h"
 #include "MatchURL.h"
 
-static int aaaa = 0;
+//static int aaaa = 0;
 
 
 void download( void * args)
@@ -45,10 +45,11 @@ void download( void * args)
 		return;
 	}
 	
-	if ( config->getMode(tURL->getType()) )
+/*	if ( config->getMode(tURL->getType()) )
 	{
 		puts(config->getMode(tURL->getType())->getMode() );
 	}
+*/
 	host = URLParser::getHost( tURL->getURLStr() );
 	port = URLParser::getPort( tURL->getURLStr() );
 	res =  URLParser::getRes( tURL->getURLStr() );
@@ -57,9 +58,8 @@ void download( void * args)
 		puts("host or port or res is NULL");
 		goto ret;
 	}
-//	printf("Host:%s\nPort:%s\nRes:%s\n",host,port,res);
-	//sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.1 Mobile Safari/533.1\r\n\r\n",res,host);
 	//puts(header);
+//	printf("%s:%d\n",host,tURL->getDeep());
 	sprintf( header,"GET %s HTTP/1.1\r\nHost: %s\r\n\r\n",res,host);
 	saddr = dnsch->DNS( host, port );
 
@@ -93,7 +93,7 @@ void download( void * args)
 	}
 //	puts(respond->getBody());
 	tURL->setStateToDB(respond->getState());
-	printf("State:%d\n",respond->getState());
+//	printf("State:%d\n",respond->getState());
 
 	model = Model::getModel();
 
@@ -109,17 +109,24 @@ void download( void * args)
 		model->init();
 		if ( model->output != NULL )
 		{
-			puts("Output`````````````````");
+	//		puts("Output`````````````````");
 			model->output(host,respond->getBody(),tURL->getType());
 		}
 		else
 		{
-			puts("Output is NULL `````````````````");
+			puts("Output is NULL");
 		}
 
-		if ( config->getMode(tURL->getType()) )
+		if ( config->getMode(tURL->getType())  )
 	        {
-               		GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
+			if( config->getMethod() && tURL->getDeep() <= config->getDeepth() )
+			{
+               			GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
+			}
+			else
+			{
+				GetURLFromBody( config->getMode(tURL->getType()),host,respond->getBody(),tURL->getDeep());
+			}
        		}
 		//puts(respond->getBody());
 	}
