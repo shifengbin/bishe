@@ -26,9 +26,10 @@
 
 void output( char *host , char *body , int type)
 {
-	char *regexstr = "<a.*?href=(\\\"|\').*?(\\\"|\").*?>.*?</a>";
+	char *regexstr = "<tr\\s+logr=[\\d\\D]*?>[\\d\\D]*?</tr>";
 	regex_t reg;
 	regmatch_t pmatch;
+	int len = 0;
 
 	if (regcomp(&reg,regexstr,0)!=0)
 	{
@@ -43,7 +44,21 @@ void output( char *host , char *body , int type)
 	else
 	{
 		puts("match");
+		len = pmatch.rm_eo - pmatch.rm_so;
+		printf("%d\n",len);
 	}
+
 	regfree(&reg);
+	return;
 }
 
+int main()
+{
+	char *buf = malloc( 1024*1024 *3 );
+	int fd = open("chuzu.html",O_RDONLY);
+	int len = read(fd , buf , 1024*1024*3);
+	buf[len] = 0;
+	output("",buf,1);
+	close(fd);
+	return 0;
+}
