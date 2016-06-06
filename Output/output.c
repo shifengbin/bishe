@@ -23,10 +23,16 @@
 
    }
  */
-
+void save( char  *body)
+{
+	int fd = open( "file.html", O_CREAT|O_WRONLY|O_APPEND,0666);
+	write(fd , body , strlen(body));
+	close(fd);
+}
 void output( char *host , char *body , int type)
 {
 	char *regexstr = "<tr\\s+logr=[\\d\\D]*?>[\\d\\D]*?</tr>";
+	char *temp = NULL;
 	regex_t reg;
 	regmatch_t pmatch;
 	int len = 0;
@@ -45,6 +51,10 @@ void output( char *host , char *body , int type)
 	{
 		puts("match");
 		len = pmatch.rm_eo - pmatch.rm_so;
+		temp = body + pmatch.rm_so;
+		*(temp+len) = 0;
+		save(temp);
+		
 		printf("%d\n",len);
 	}
 
