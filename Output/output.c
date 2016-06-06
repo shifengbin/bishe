@@ -42,22 +42,25 @@ void output( char *host , char *body , int type)
 		puts("comp err");
 		return;
 	}
-
-	if (regexec(&reg,body,1,&pmatch,0 ) == REG_NOMATCH)
+	temp = body;
+	for(;;)
 	{
-		puts("no match");
+		if (regexec(&reg, temp ,1,&pmatch,0 ) == REG_NOMATCH)
+		{
+			puts("no match");
+			break;
+		}
+		else
+		{
+			puts("match");
+			len = pmatch.rm_eo - pmatch.rm_so;
+			temp = temp + pmatch.rm_so;
+			*(temp+len) = 0;
+			save(temp);
+			temp+=len+1;
+			printf("%d\n",len);
+		}
 	}
-	else
-	{
-		puts("match");
-		len = pmatch.rm_eo - pmatch.rm_so;
-		temp = body + pmatch.rm_so;
-		*(temp+len) = 0;
-		save(temp);
-		
-		printf("%d\n",len);
-	}
-
 	regfree(&reg);
 	return;
 }
