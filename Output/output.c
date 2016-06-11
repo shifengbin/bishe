@@ -199,11 +199,11 @@ void output( char *host , char *body , int type)
 	{
 		return;
 	}
-	pthread_mutex_lock(&outlock);
+//	pthread_mutex_lock(&outlock);
 	if (regcomp(&reg,regexstr,0)!=0 || regcomp(&cityr,cityreg,0)!=0 )
 	{
 		puts("comp err");
-		pthread_mutex_unlock(&outlock);
+//		pthread_mutex_unlock(&outlock);
 		return;
 	}
 	temp = body;
@@ -257,9 +257,10 @@ void output( char *host , char *body , int type)
 	}
 	regfree(&reg);
 	regfree(&cityr);
-	pthread_mutex_unlock(&outlock);
+//	pthread_mutex_unlock(&outlock);
 	return;
 }
+
 /*
 int main()
 {
